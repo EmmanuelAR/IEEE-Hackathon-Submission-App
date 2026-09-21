@@ -1,9 +1,13 @@
 import Link from "next/link";
 import { OpenPageMark } from "@/components/open-page-mark";
 import { SetupGuide } from "@/components/setup-guide";
+import { areSubmissionsOpen } from "@/lib/supabase/admin";
 import { LUMA_URL, TELEGRAM_URL } from "@/lib/types";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const open = await areSubmissionsOpen();
   return (
     <div className="relative overflow-x-hidden px-6 pb-8 pt-16 sm:px-10 sm:pt-24">
       <div
@@ -30,9 +34,13 @@ export default function HomePage() {
         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
           <Link
             href="/submit"
-            className="inline-flex min-h-12 items-center justify-center rounded-full bg-ember px-6 text-base font-medium text-white transition-opacity hover:opacity-90"
+            className={
+              open
+                ? "inline-flex min-h-12 items-center justify-center rounded-full bg-ember px-6 text-base font-medium text-white transition-opacity hover:opacity-90"
+                : "inline-flex min-h-12 items-center justify-center rounded-full bg-mist px-6 text-base font-medium text-mute"
+            }
           >
-            Enviar proyecto
+            {open ? "Enviar proyecto" : "Envíos cerrados"}
           </Link>
           <a
             href={LUMA_URL}

@@ -9,7 +9,7 @@ import {
   createAdminToken,
   isValidAdminToken,
 } from "@/lib/admin-auth";
-import { getSupabaseAdmin } from "@/lib/supabase/admin";
+import { getSupabaseAdmin, setSubmissionsOpen } from "@/lib/supabase/admin";
 import { SUBMISSION_STATUSES, type SubmissionStatus } from "@/lib/types";
 
 export type AdminLoginState = { error?: string } | null;
@@ -72,4 +72,15 @@ export async function updateSubmissionStatus(
 
   revalidatePath("/admin");
   revalidatePath(`/admin/${id}`);
+}
+
+export async function toggleSubmissions(formData: FormData) {
+  await requireAdmin();
+
+  const open = String(formData.get("open") ?? "") === "1";
+  await setSubmissionsOpen(open);
+
+  revalidatePath("/", "layout");
+  revalidatePath("/submit");
+  revalidatePath("/admin");
 }

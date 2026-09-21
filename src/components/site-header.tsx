@@ -1,8 +1,11 @@
 import Link from "next/link";
-import { LUMA_URL, SITE_TITLE, TELEGRAM_URL } from "@/lib/types";
 import { OpenPageMark } from "@/components/open-page-mark";
+import { areSubmissionsOpen } from "@/lib/supabase/admin";
+import { LUMA_URL, SITE_TITLE, TELEGRAM_URL } from "@/lib/types";
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const open = await areSubmissionsOpen();
+
   return (
     <header className="px-6 pt-8 sm:px-10">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-4">
@@ -34,9 +37,13 @@ export function SiteHeader() {
           </a>
           <Link
             href="/submit"
-            className="inline-flex min-h-11 items-center rounded-full bg-ember px-4 text-sm font-medium text-white transition-opacity hover:opacity-90"
+            className={
+              open
+                ? "inline-flex min-h-11 items-center rounded-full bg-ember px-4 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                : "inline-flex min-h-11 items-center rounded-full bg-mist px-4 text-sm font-medium text-mute"
+            }
           >
-            Enviar proyecto
+            {open ? "Enviar proyecto" : "Envíos cerrados"}
           </Link>
         </nav>
       </div>

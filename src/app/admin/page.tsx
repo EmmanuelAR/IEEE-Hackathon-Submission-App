@@ -3,7 +3,8 @@ import Link from "next/link";
 import { isAdminAuthenticated, logoutAdmin } from "@/app/actions/admin";
 import { AdminLoginForm } from "@/components/admin-login-form";
 import { AdminTable } from "@/components/admin-table";
-import { listSubmissions } from "@/lib/supabase/admin";
+import { SubmissionsToggle } from "@/components/submissions-toggle";
+import { areSubmissionsOpen, listSubmissions } from "@/lib/supabase/admin";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -28,8 +29,12 @@ export default async function AdminPage() {
   }
 
   let submissions;
+  let submissionsOpen = true;
   try {
-    submissions = await listSubmissions();
+    [submissions, submissionsOpen] = await Promise.all([
+      listSubmissions(),
+      areSubmissionsOpen(),
+    ]);
   } catch {
     return (
       <div className="px-6 py-16 sm:px-10">
@@ -84,6 +89,7 @@ export default async function AdminPage() {
             </form>
           </div>
         </div>
+        <SubmissionsToggle open={submissionsOpen} />
         <AdminTable submissions={submissions} />
         <p className="mt-8 text-sm text-mute">
           <Link href="/" className="text-ink underline-offset-4 hover:underline">

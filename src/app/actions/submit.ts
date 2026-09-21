@@ -1,7 +1,11 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { getSupabaseAdmin, isUniqueTeamNameError } from "@/lib/supabase/admin";
+import {
+  areSubmissionsOpen,
+  getSupabaseAdmin,
+  isUniqueTeamNameError,
+} from "@/lib/supabase/admin";
 import {
   firstFieldError,
   hasDeliverable,
@@ -18,6 +22,13 @@ export async function submitProject(
   _prev: SubmitState,
   formData: FormData,
 ): Promise<SubmitState> {
+  if (!(await areSubmissionsOpen())) {
+    return {
+      error:
+        "Los envíos están cerrados. Si crees que es un error, escribe en Telegram.",
+    };
+  }
+
   const parsed = submissionFieldsSchema.safeParse({
     team_name: formData.get("team_name"),
     contact_email: formData.get("contact_email"),

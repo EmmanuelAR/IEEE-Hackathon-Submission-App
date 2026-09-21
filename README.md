@@ -42,6 +42,8 @@ Abre [http://localhost:3000](http://localhost:3000).
 
 ### Schema
 
+Tabla `event_settings` (una fila): `submissions_open`. El admin abre o cierra los envíos.
+
 Tabla `submissions`:
 
 - `id` uuid, `created_at`, `status` (`received` | `reviewed`)

@@ -64,3 +64,15 @@ set
 
 -- Private bucket: no public storage policies.
 -- Uploads and signed downloads go through the service role.
+
+create table if not exists public.event_settings (
+  id int primary key default 1 check (id = 1),
+  submissions_open boolean not null default true,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.event_settings enable row level security;
+
+insert into public.event_settings (id, submissions_open)
+values (1, true)
+on conflict (id) do nothing;

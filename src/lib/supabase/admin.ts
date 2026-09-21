@@ -50,3 +50,33 @@ export async function listSubmissions() {
   if (error) throw error;
   return (data ?? []) as Submission[];
 }
+
+export async function areSubmissionsOpen() {
+  try {
+    const { data, error } = await getSupabaseAdmin()
+      .from("event_settings")
+      .select("submissions_open")
+      .eq("id", 1)
+      .maybeSingle();
+
+    if (error || !data) return true;
+    return data.submissions_open === true;
+  } catch {
+    return true;
+  }
+}
+
+export async function setSubmissionsOpen(open: boolean) {
+  const { error } = await getSupabaseAdmin().from("event_settings").upsert(
+    {
+      id: 1,
+      submissions_open: open,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "id" },
+  );
+
+  if (error) {
+    throw new Error("No se pudo actualizar el estado de los envíos");
+  }
+}
