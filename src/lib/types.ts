@@ -51,6 +51,9 @@ export const STATUS_LABELS: Record<SubmissionStatus, string> = {
 };
 
 export const LUMA_URL = "https://luma.com/3ydsbpap";
+export const CURSOR_DOWNLOAD_URL = "https://cursor.com/es/download";
+export const GROK_BOT_URL = "https://x.ai/bot";
+export const INSTALL_TUTORIAL_URL = "https://www.instagram.com/p/DdiUjrKhpTu/";
 export const SITE_TITLE = "Grok Bot Hackathon San José";
 export const MAX_MEMBERS = 4;
 export const MAX_FILE_BYTES = 20 * 1024 * 1024;

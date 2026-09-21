@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { OpenPageMark } from "@/components/open-page-mark";
+import { SetupGuide } from "@/components/setup-guide";
 import { LUMA_URL } from "@/lib/types";
 
 export default function HomePage() {
   return (
-    <div className="relative overflow-hidden px-6 pb-8 pt-16 sm:px-10 sm:pt-24">
+    <div className="relative overflow-x-hidden px-6 pb-8 pt-16 sm:px-10 sm:pt-24">
       <div
         aria-hidden
         className="pointer-events-none absolute -right-16 top-10 hidden opacity-80 sm:block"
@@ -62,6 +63,8 @@ export default function HomePage() {
             </p>
           </div>
         </div>
+
+        <SetupGuide />
       </div>
     </div>
   );

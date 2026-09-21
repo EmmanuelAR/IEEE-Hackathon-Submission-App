@@ -8,7 +8,7 @@ export function SiteFooter() {
           <p>Hackathon Lectura @ CLASYPCS · San José</p>
           <p>
             Organizado por Emmanuel Agüero y Sebastián Ceciliano, embajadores
-            SpaceXAI. Facilitación; sin sponsorship oficial de SpaceX.
+            SpaceXAI.
           </p>
         </div>
         <div className="space-y-1 sm:text-right">
