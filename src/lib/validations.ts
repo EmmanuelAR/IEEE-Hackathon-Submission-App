@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { MAX_MEMBERS, PROTOTYPE_TYPES } from "@/lib/types";
+import { MAX_MEMBERS } from "@/lib/types";
 
 const optionalUrl = z
   .string()
@@ -48,13 +48,8 @@ export const submissionFieldsSchema = z.object({
     .trim()
     .min(20, "Cuenta la solución y cómo usas IA")
     .max(2000),
-  prototype_type: z.enum(PROTOTYPE_TYPES, {
-    message: "Elige un tipo de prototipo",
-  }),
   prototype_url: optionalUrl,
   pitch_slides_url: optionalUrl,
-  github_url: optionalUrl,
-  video_url: optionalUrl,
   notes: z
     .string()
     .trim()
@@ -69,14 +64,9 @@ export const submissionFieldsSchema = z.object({
 export type SubmissionFields = z.infer<typeof submissionFieldsSchema>;
 
 export function hasDeliverable(
-  fields: Pick<
-    SubmissionFields,
-    "prototype_url" | "pitch_slides_url" | "video_url"
-  >,
+  fields: Pick<SubmissionFields, "prototype_url" | "pitch_slides_url">,
 ): boolean {
-  return Boolean(
-    fields.prototype_url || fields.pitch_slides_url || fields.video_url,
-  );
+  return Boolean(fields.prototype_url || fields.pitch_slides_url);
 }
 
 export function membersFromFormData(formData: FormData) {

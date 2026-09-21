@@ -36,11 +36,8 @@ export async function submitProject(
     one_liner: formData.get("one_liner"),
     problem: formData.get("problem"),
     solution: formData.get("solution"),
-    prototype_type: formData.get("prototype_type"),
     prototype_url: formData.get("prototype_url") ?? "",
     pitch_slides_url: formData.get("pitch_slides_url") ?? "",
-    github_url: formData.get("github_url") ?? "",
-    video_url: formData.get("video_url") ?? "",
     notes: formData.get("notes") ?? "",
     clasypcs_confirmed: formData.get("clasypcs_confirmed") === "on",
   });
@@ -55,7 +52,7 @@ export async function submitProject(
 
   if (!hasDeliverable(parsed.data)) {
     return {
-      error: "Agrega el enlace del prototipo, las slides o el video.",
+      error: "Agrega el enlace del prototipo o las slides.",
     };
   }
 
@@ -72,11 +69,11 @@ export async function submitProject(
         one_liner: fields.one_liner,
         problem: fields.problem,
         solution: fields.solution,
-        prototype_type: fields.prototype_type,
+        prototype_type: "other",
         prototype_url: fields.prototype_url ?? null,
         pitch_slides_url: fields.pitch_slides_url ?? null,
-        github_url: fields.github_url ?? null,
-        video_url: fields.video_url ?? null,
+        github_url: null,
+        video_url: null,
         notes: fields.notes ?? null,
         clasypcs_confirmed: true,
         status: "received",

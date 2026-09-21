@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { submitProject, type SubmitState } from "@/app/actions/submit";
-import { MAX_MEMBERS, PROTOTYPE_LABELS, PROTOTYPE_TYPES } from "@/lib/types";
+import { MAX_MEMBERS } from "@/lib/types";
 
 const emptyMember = { name: "", email: "" };
 
@@ -202,75 +202,27 @@ export function SubmitForm() {
       </div>
 
       <div>
-        <Label htmlFor="prototype_type">Tipo de prototipo</Label>
-        <select
-          id="prototype_type"
-          name="prototype_type"
-          required
-          defaultValue=""
+        <Label htmlFor="prototype_url">Enlace del prototipo</Label>
+        <input
+          id="prototype_url"
+          name="prototype_url"
+          type="url"
           className={inputClass}
-        >
-          <option value="" disabled>
-            Elige una opción
-          </option>
-          {PROTOTYPE_TYPES.map((type) => (
-            <option key={type} value={type}>
-              {PROTOTYPE_LABELS[type]}
-            </option>
-          ))}
-        </select>
-        <FieldError message={fieldErrors.prototype_type?.[0]} />
+          placeholder="https://"
+        />
+        <FieldError message={fieldErrors.prototype_url?.[0]} />
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2">
-        <div className="sm:col-span-2">
-          <Label htmlFor="prototype_url">Enlace del prototipo</Label>
-          <input
-            id="prototype_url"
-            name="prototype_url"
-            type="url"
-            className={inputClass}
-            placeholder="https://"
-          />
-          <FieldError message={fieldErrors.prototype_url?.[0]} />
-        </div>
-        <div>
-          <Label htmlFor="pitch_slides_url">Slides del pitch</Label>
-          <input
-            id="pitch_slides_url"
-            name="pitch_slides_url"
-            type="url"
-            className={inputClass}
-            placeholder="https://"
-          />
-          <FieldError message={fieldErrors.pitch_slides_url?.[0]} />
-        </div>
-        <div>
-          <Label htmlFor="github_url" optional>
-            GitHub
-          </Label>
-          <input
-            id="github_url"
-            name="github_url"
-            type="url"
-            className={inputClass}
-            placeholder="https://github.com/..."
-          />
-          <FieldError message={fieldErrors.github_url?.[0]} />
-        </div>
-        <div className="sm:col-span-2">
-          <Label htmlFor="video_url" optional>
-            Video
-          </Label>
-          <input
-            id="video_url"
-            name="video_url"
-            type="url"
-            className={inputClass}
-            placeholder="https://"
-          />
-          <FieldError message={fieldErrors.video_url?.[0]} />
-        </div>
+      <div>
+        <Label htmlFor="pitch_slides_url">Slides del pitch</Label>
+        <input
+          id="pitch_slides_url"
+          name="pitch_slides_url"
+          type="url"
+          className={inputClass}
+          placeholder="https://"
+        />
+        <FieldError message={fieldErrors.pitch_slides_url?.[0]} />
       </div>
 
       <div>
