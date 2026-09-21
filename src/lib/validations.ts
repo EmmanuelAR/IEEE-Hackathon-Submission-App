@@ -1,9 +1,5 @@
 import { z } from "zod";
-import {
-  MAX_FILE_BYTES,
-  MAX_MEMBERS,
-  PROTOTYPE_TYPES,
-} from "@/lib/types";
+import { MAX_MEMBERS, PROTOTYPE_TYPES } from "@/lib/types";
 
 const optionalUrl = z
   .string()
@@ -72,48 +68,14 @@ export const submissionFieldsSchema = z.object({
 
 export type SubmissionFields = z.infer<typeof submissionFieldsSchema>;
 
-export const ALLOWED_FILE_TYPES = [
-  "application/pdf",
-  "image/png",
-  "application/zip",
-  "application/x-zip-compressed",
-  "application/x-zip",
-] as const;
-
-const ALLOWED_EXTENSIONS = [".pdf", ".png", ".zip"];
-
-export function validateUpload(file: File | null): string | null {
-  if (!file || file.size === 0) return null;
-  if (file.size > MAX_FILE_BYTES) {
-    return "El archivo no puede superar 20 MB";
-  }
-
-  const name = file.name.toLowerCase();
-  const extensionOk = ALLOWED_EXTENSIONS.some((ext) => name.endsWith(ext));
-  const typeOk =
-    !file.type ||
-    ALLOWED_FILE_TYPES.includes(
-      file.type as (typeof ALLOWED_FILE_TYPES)[number],
-    );
-
-  if (!extensionOk || !typeOk) {
-    return "Solo se aceptan PDF, PNG o ZIP";
-  }
-
-  return null;
-}
-
 export function hasDeliverable(
   fields: Pick<
     SubmissionFields,
-    "prototype_url" | "pitch_slides_url"
+    "prototype_url" | "pitch_slides_url" | "video_url"
   >,
-  file: File | null,
 ): boolean {
   return Boolean(
-    fields.prototype_url ||
-      fields.pitch_slides_url ||
-      (file && file.size > 0),
+    fields.prototype_url || fields.pitch_slides_url || fields.video_url,
   );
 }
 

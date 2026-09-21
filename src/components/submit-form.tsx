@@ -81,6 +81,9 @@ export function SubmitForm() {
 
       <div>
         <p className="text-sm font-medium text-ink">Integrantes · máximo 4</p>
+        <p className="mt-2 text-sm leading-6 text-mute">
+          Solo una persona del equipo debe enviar el proyecto.
+        </p>
         <div className="mt-4 space-y-4">
           {members.map((member, index) => (
             <div
@@ -268,23 +271,6 @@ export function SubmitForm() {
           />
           <FieldError message={fieldErrors.video_url?.[0]} />
         </div>
-      </div>
-
-      <div>
-        <Label htmlFor="file" optional>
-          Archivo PDF, PNG o ZIP · 20 MB
-        </Label>
-        <input
-          id="file"
-          name="file"
-          type="file"
-          accept=".pdf,.png,.zip,application/pdf,image/png,application/zip"
-          className="mt-2 block w-full text-sm text-mute file:mr-4 file:min-h-11 file:rounded-full file:border-0 file:bg-white file:px-4 file:text-sm file:font-medium file:text-ink"
-        />
-        <p className="mt-2 text-sm text-mute">
-          Basta con un enlace o un archivo. No hace falta ambos.
-        </p>
-        <FieldError message={fieldErrors.file?.[0]} />
       </div>
 
       <div>

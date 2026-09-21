@@ -2,25 +2,17 @@
 
 import { redirect } from "next/navigation";
 import { getSupabaseAdmin, isUniqueTeamNameError } from "@/lib/supabase/admin";
-import { STORAGE_BUCKET } from "@/lib/types";
 import {
   firstFieldError,
   hasDeliverable,
   membersFromFormData,
   submissionFieldsSchema,
-  validateUpload,
 } from "@/lib/validations";
 
 export type SubmitState = {
   error?: string;
   fieldErrors?: Record<string, string[]>;
 } | null;
-
-function fileFromForm(formData: FormData) {
-  const value = formData.get("file");
-  if (!(value instanceof File) || value.size === 0) return null;
-  return value;
-}
 
 export async function submitProject(
   _prev: SubmitState,
@@ -50,16 +42,9 @@ export async function submitProject(
     };
   }
 
-  const file = fileFromForm(formData);
-  const fileError = validateUpload(file);
-  if (fileError) {
-    return { error: fileError, fieldErrors: { file: [fileError] } };
-  }
-
-  if (!hasDeliverable(parsed.data, file)) {
+  if (!hasDeliverable(parsed.data)) {
     return {
-      error:
-        "Agrega el enlace del prototipo, las slides o un archivo. Hace falta al menos uno.",
+      error: "Agrega el enlace del prototipo, las slides o el video.",
     };
   }
 
@@ -109,29 +94,6 @@ export async function submitProject(
       error:
         "El servidor no está configurado. Faltan las variables de Supabase.",
     };
-  }
-
-  if (file) {
-    const safeName = file.name.replace(/[^\w.\-]+/g, "_");
-    const path = `${insertedId}/${safeName}`;
-    const { error: uploadError } = await getSupabaseAdmin()
-      .storage.from(STORAGE_BUCKET)
-      .upload(path, file, {
-        contentType: file.type || undefined,
-        upsert: false,
-      });
-
-    if (uploadError) {
-      return {
-        error:
-          "El proyecto se guardó, pero el archivo no se pudo subir. Envíalo por URL o vuelve a intentar.",
-      };
-    }
-
-    await getSupabaseAdmin()
-      .from("submissions")
-      .update({ file_path: path })
-      .eq("id", insertedId);
   }
 
   redirect(`/gracias?id=${insertedId}`);

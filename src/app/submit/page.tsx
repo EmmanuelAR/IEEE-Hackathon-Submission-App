@@ -14,8 +14,8 @@ export default function SubmitPage() {
           Enviar proyecto
         </h1>
         <p className="mt-4 max-w-lg text-base leading-7 text-mute">
-          Pitch de 3–4 minutos el martes 22. Un prototipo liviano basta: slides,
-          Figma, demo o video.
+          Solo una persona del equipo envía. Pitch de 3–4 minutos el martes 22.
+          Un prototipo liviano basta: slides, Figma, demo o video.
         </p>
         <div className="mt-12">
           <SubmitForm />
