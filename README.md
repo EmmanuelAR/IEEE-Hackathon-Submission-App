@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Grok Bot Hackathon San José
 
-## Getting Started
+App de envíos para el Hackathon Lectura @ CLASYPCS. Registro en [Luma](https://luma.com/3ydsbpap). Esta app solo recibe proyectos.
 
-First, run the development server:
+- `/` landing
+- `/submit` formulario
+- `/gracias` confirmación con id
+- `/admin` lista, detalle y CSV (contraseña)
+
+## Stack
+
+Next.js App Router, TypeScript, Tailwind, Supabase.
+
+## Setup local
+
+```bash
+npm install
+cp .env.example .env.local
+```
+
+Completa `.env.local`:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+ADMIN_PASSWORD=
+```
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Supabase
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Crea un proyecto (el plan Free alcanza).
+2. Project Settings → API: copia URL, `anon` public key y `service_role`.
+3. SQL Editor: corre [`supabase/schema.sql`](supabase/schema.sql).
+4. Opcional, dos envíos de prueba: [`supabase/seed.sql`](supabase/seed.sql).
 
-## Learn More
+### Schema
 
-To learn more about Next.js, take a look at the following resources:
+Tabla `submissions`:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `id` uuid, `created_at`, `status` (`received` | `reviewed`)
+- `team_name` **único**
+- `members` jsonb `[{ name, email }]` (1–4)
+- `contact_email`, `one_liner`, `problem`, `solution`
+- `prototype_type`: `slides` | `figma` | `llm_demo` | `video` | `other`
+- `prototype_url`, `pitch_slides_url`, `github_url`, `video_url`
+- `file_path` (Storage, opcional)
+- `notes`, `clasypcs_confirmed`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Si el nombre de equipo ya existe, el formulario muestra: *Ya existe un equipo con este nombre. Elige otro o agrega un sufijo.* No se sobrescribe.
 
-## Deploy on Vercel
+### RLS
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- INSERT público (`anon` / `authenticated`)
+- Sin SELECT/UPDATE/DELETE públicos
+- Admin usa `SUPABASE_SERVICE_ROLE_KEY` (salta RLS)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Bucket privado `submissions` (PDF/PNG/ZIP, 20 MB). Subidas y descargas firmadas van por service role.
+
+## Vercel
+
+Proyecto sugerido: `grok-bot-hackathon-sj` en el team [emmanuelars-projects](https://vercel.com/emmanuelars-projects).
+
+Variables de entorno (Production):
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `ADMIN_PASSWORD`
+
+```bash
+vercel --prod --scope emmanuelars-projects
+```
+
+## Fuera de alcance
+
+UI de jueces, sync con Luma, galería pública, chat.
