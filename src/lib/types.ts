@@ -51,6 +51,7 @@ export const STATUS_LABELS: Record<SubmissionStatus, string> = {
 };
 
 export const LUMA_URL = "https://luma.com/3ydsbpap";
+export const TELEGRAM_URL = "https://t.me/hackathon_sj_ayuda";
 export const CURSOR_DOWNLOAD_URL = "https://cursor.com/es/download";
 export const GROK_BOT_URL = "https://x.ai/bot";
 export const INSTALL_TUTORIAL_URL = "https://www.instagram.com/p/DdiUjrKhpTu/";

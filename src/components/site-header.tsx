@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LUMA_URL, SITE_TITLE } from "@/lib/types";
+import { LUMA_URL, SITE_TITLE, TELEGRAM_URL } from "@/lib/types";
 import { OpenPageMark } from "@/components/open-page-mark";
 
 export function SiteHeader() {
@@ -23,6 +23,14 @@ export function SiteHeader() {
             className="inline-flex min-h-11 items-center rounded-full px-3 text-sm text-mute transition-colors hover:text-ink"
           >
             Luma
+          </a>
+          <a
+            href={TELEGRAM_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-11 items-center rounded-full px-3 text-sm text-mute transition-colors hover:text-ink"
+          >
+            Telegram
           </a>
           <Link
             href="/submit"

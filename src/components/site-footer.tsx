@@ -1,4 +1,4 @@
-import { LUMA_URL } from "@/lib/types";
+import { LUMA_URL, TELEGRAM_URL } from "@/lib/types";
 
 export function SiteFooter() {
   return (
@@ -20,6 +20,14 @@ export function SiteFooter() {
             className="inline-flex min-h-11 items-center text-ink underline-offset-4 hover:underline"
           >
             luma.com/3ydsbpap
+          </a>
+          <a
+            href={TELEGRAM_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-11 items-center text-ink underline-offset-4 hover:underline"
+          >
+            Telegram · ayuda
           </a>
         </div>
       </div>

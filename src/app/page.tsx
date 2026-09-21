@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { OpenPageMark } from "@/components/open-page-mark";
 import { SetupGuide } from "@/components/setup-guide";
-import { LUMA_URL } from "@/lib/types";
+import { LUMA_URL, TELEGRAM_URL } from "@/lib/types";
 
 export default function HomePage() {
   return (
@@ -41,6 +41,14 @@ export default function HomePage() {
             className="inline-flex min-h-12 items-center justify-center rounded-full px-6 text-base text-ink transition-colors hover:bg-mist"
           >
             Registro en Luma
+          </a>
+          <a
+            href={TELEGRAM_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-12 items-center justify-center rounded-full px-6 text-base text-ink transition-colors hover:bg-mist"
+          >
+            Canal de Telegram
           </a>
         </div>
 
